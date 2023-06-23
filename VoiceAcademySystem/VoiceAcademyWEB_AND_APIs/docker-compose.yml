@@ -23,7 +23,7 @@ services:
     image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=feihub_users
+      - MYSQL_DATABASE=voiceacademy
       - MYSQL_USER=VoiceAcademy_Admin
       - MYSQL_PASSWORD=4dm1n1str4d0r_VoiceAcademy
     ports:

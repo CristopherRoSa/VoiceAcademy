@@ -1,0 +1,127 @@
+﻿@page
+@model VoiceAcademyWEB.Pages.PlayListViewModel
+@inject IMemoryCache memoryCache
+@{
+    int playlistId = int.Parse(Request.Query["id"]);
+    TokenDTO token = memoryCache.Get<TokenDTO>("Token");
+    var list = new PlayList();
+    try
+    {
+        list = await Model._playlist.GetPlayListById(playlistId); ;
+
+        int idOwner = await Model._playlist.GetUserIdPlaylistOwner(list.IdPlayList);
+        <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>@list.Name</h1>
+
+                    @if (list.ImagePlayList != null)
+                    {
+                        <td><img src="data:image/jpeg;base64,@Convert.ToBase64String(list.ImagePlayList)" alt="Imagen de la lista" style="max-width: 300px;"></td>
+                    }
+                    else
+                    {
+                        <td><img src="https://via.placeholder.com/500" alt="Imagen de la lista" style="max-width: 100px;"></td>
+                    }
+
+                    <p>@list.Description</p>
+                    <hr />
+                    <h3>Capítulos</h3>
+
+                    <ul class="list-group">
+                        @{
+                            try
+                            {
+                                foreach (var chapter in await Model._chapters.GetChaptersByPlaylist(playlistId))
+                                {
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="episode.ImageUrl" alt="Imagen del capítulo" class="img-fluid">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>@chapter.Title</h5>
+                                                <p>@chapter.Description</p>
+                                            </div>
+                                            <div class="col-md-4 d-flex align-items-center">
+                                                <a href="/PlayChapterView?id=@chapter.IdChapter" class="btn btn-primary me-2">
+                                                    <i class="fas fa-play"></i>
+                                                </a>
+                                                @if (token.Role.Equals("uvcomunity") && (idOwner == token.idUser))
+                                                {
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_episode.Id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_episode.Id">
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#likelistModal" data-chapter-id-like="@chapter.IdChapter" onclick="updateLikelistFormValue(@chapter.IdChapter, @list.IdPlayList)">Eliminar de Lista</a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ModelState.AddModelError("", ex.Message);
+
+                                Page();
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+    catch (Exception ex)
+    {
+        ModelState.AddModelError("", ex.Message);
+        Page();
+    }
+}
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<!-- Modal Agregar a likelist -->
+<div class="modal fade" id="likelistModal" tabindex="-1" aria-labelledby="likelistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="likelistModalLabel">Eliminar de Lista de reporduccion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-black">¿Estás seguro de que deseas eliminar el capítulo de la lista?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post" asp-page-handler="List">
+                    <input type="hidden" name="chapterIdLike" id="ChapterIdLike" value="" />
+                    <input type="hidden" name="playlistId" id="PlaylistId" value="" />
+                    <button type="submit" class="btn btn-primary" id="addToPlaylistBtn" onclick="updatePlaylistFormValues()">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function redirectToPlayChapterView() {
+        window.location.href = "/PlayChapterView?id=" + chapterId;
+    }
+</script>
+<script>
+    function updateLikelistFormValue(chapterId, playlistId) {
+        $('#ChapterIdLike').val(chapterId);
+        $('#PlaylistId').val(playlistId);
+    }
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-pzjw59bhf1w8cxwrp+i+o5kb2hdmdd0yta7dpl6ra2qepyzxjqvvwuf99hq8tvil" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+

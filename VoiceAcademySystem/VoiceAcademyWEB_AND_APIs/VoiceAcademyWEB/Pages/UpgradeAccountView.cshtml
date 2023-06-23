@@ -1,0 +1,37 @@
+﻿@page
+@model VoiceAcademyWEB.Pages.UpgradeAccountViewModel
+@{
+    int userId = int.Parse(Request.Query["id"]);
+}
+
+<h1>Upgrade de Cuenta</h1>
+<form method="post" asp-page-handler="Upgrade">
+    <input type="hidden" name="id" value=userId />
+    <div class="mb-3">
+        <label for="carrera" class="form-label">Seleccionar carrera:</label>
+        <select class="form-select" id="carrera" name="carrera">
+            <option value="0">Seleccionar carrera</option>
+            @foreach (var degree in await Model._degreeProvider.GetDegrees())
+            {
+                <option value="@degree.IdDegree">@degree.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="matricula" class="form-label">Matrícula Institucional:</label>
+        <input type="text" class="form-control" id="matricula" name="matricula" maxlength="9" pattern="^s\d{8}$" placeholder="Ejemplo: s19030173" required>
+    </div>
+    <div class="mb-3">
+        <label for="correo" class="form-label">Correo Institucional:</label>
+        <input type="email" class="form-control" id="correo" name="correo" pattern="^zS\d{8}@@estudiantes\.uv\.mx$" placeholder="Ejemplo: s19030173@estudiantes.uv.mx" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upgrade</button>
+</form>
+@if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+{
+    <div class="alert alert-success">@ViewData["ErrorMessage"]</div>
+}
+
+<p>@ViewBag.Mensaje</p>
+

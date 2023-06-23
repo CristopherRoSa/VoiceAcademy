@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">VoiceAcademyApp</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="username_label">Nombre de usuario:</string>
+    <string name="username_instruction_label">Ingresa tu nombre de usuario...</string>
+    <string name="password_label">Contraseña:</string>
+    <string name="password_instruction_label">Ingresa tu contraseña...</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="sign_up_button">Crear cuenta</string>
+    <string name="empty_fields_label">No se puede dejar ningún campo vacío.</string>
+    <string name="invalid_data_label">Los datos ingresados no son inválidos.</string>
+    <string name="expired_session_label">La sesión ha expirado.</string>
+    <string name="service_not_available_label">El servicio no está disponible.</string>
+    <string name="login_successful_label">Inicio correcto</string>
+    <string name="invalid_email_label">El correo ingresado es invalido</string>
+    <string name="user_not_added_label">El registro no se concreto</string>
+    <string name="user_added_label">Registro exitoso</string>
+    <string name="update_user_success_label">Actualizacion de datos exitosa</string>
+
+</resources>

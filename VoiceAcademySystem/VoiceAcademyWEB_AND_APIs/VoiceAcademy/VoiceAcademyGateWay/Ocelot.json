@@ -1,0 +1,547 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/Login/AuthorizeUser",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5186
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Login/AuthorizeUser"
+    },
+    {
+
+      "UpstreamPathTemplate": "/api/user/GetUsers",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/GetUsers"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/SearchUserById/{idUser}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/SearchUserById/{idUser}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/UpdateUser",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/UpdateUser"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Podcasts/AddPodcast",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Podcasts/AddPodcast"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Podcasts/GetPodcasts",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Podcasts/GetPodcasts"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Podcasts/DeletePodcast",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Podcasts/DeletePodcast"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Podcasts/UpdatePodcast",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Podcasts/UpdatePodcast"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Podcasts/ChangePodcastVisivility",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Podcasts/ChangePodcastVisivility"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/GetPlayLists/{idUser}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/GetPlayLists/{idUser}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/GetUserIdPlaylistOwner/{idPlaylist}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/GetUserIdPlaylistOwner/{idPlaylist}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/AddPlayList",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/AddPlayList"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/UpdatePlayList",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/UpdatePlayList"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/DeletePlayList/{idPlayList}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/DeletePlayList/{idPlayList}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/GetPlayListById/{idPlaylist}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/GetPlayListById/{idPlaylist}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Chapters/GetLikedChaptersByPodcastId/{idPodcast}/{idUser}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Chapters/GetLikedChaptersByPodcastId/{idPodcast}/{idUser}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Chapters/GetLikedChaptersByUserId/{idUser}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Chapters/GetLikedChaptersByUserId/{idUser}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Chapters/GetChaptersByPlaylist/{idPlaylist}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Chapters/GetChaptersByPlaylist/{idPlaylist}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Chapters/uploadPodcast",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Chapters/uploadPodcast"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Degree/GetDegrees",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Degree/GetDegrees"
+    },
+
+    {
+      "UpstreamPathTemplate": "/api/Degree/GetDegreesByFacultyId/{FacultyId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Degree/GetDegreesByFacultyId/{FacultyId}"
+    },
+
+    {
+      "UpstreamPathTemplate": "/api/Region/GetRegions",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Region/GetRegions"
+    },
+
+
+    {
+      "UpstreamPathTemplate": "/api/Region/GetFacultiesByRegionId/{RegionId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Region/GetFacultiesByRegionId/{RegionId}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/GetProfileById/{idUser}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/GetProfileById/{idUser}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Authorization/AddUser",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authorization/AddUser"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Authorization/SendVerificationToken/{email}/{code}",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authorization/SendVerificationToken/{email}/{code}"
+    },
+
+    {
+      "UpstreamPathTemplate": "/api/Authorization/AllreadyExistEmail",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authorization/AllreadyExistEmail"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Authorization/AllreadyExistInstitutionalEmail",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authorization/AllreadyExistInstitutionalEmail"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/GetLikeListById/{idLikelist}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/GetLikeListById/{idLikelist}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/GetProfiles",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/GetProfiles"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Chapters/GetChaptersByPodcast/{idPodcast}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Chapters/GetChaptersByPodcast/{idPodcast}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Podcasts/GetPodcastById/{idPodcast}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Podcasts/GetPodcastById/{idPodcast}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Podcasts/GetPodcastsByUserId/{idUser}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Podcasts/GetPodcastsByUserId/{idUser}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/UnLikeChapter",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/UnLikeChapter"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Chapters/GetChapterById/{idChapter}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Chapters/GetChapterById/{idChapter}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/LikeChapter",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/LikeChapter"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/AddChapterToPlayList",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/AddChapterToPlayList"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Chapters/AddChapter",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Chapters/AddChapter"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/DeleteLikeChapter",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/DeleteLikeChapter"
+    },
+    {
+      "UpstreamPathTemplate": "/api/PlayLists/DeleteChapterToPlayList",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/PlayLists/DeleteChapterToPlayList"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/UpgradeToUvComunity",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/UpgradeToUvComunity"
+    }
+  ],
+
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}

@@ -1,0 +1,223 @@
+﻿@page
+@model VoiceAcademyWEB.Pages.PodcastViewModel
+@inject IMemoryCache memoryCache
+@{
+    int podcastId = 0;
+    var podcastInfo = new Podcastchannel();
+    if (int.TryParse(Request.Query["id"], out int parsedId))
+    {
+        podcastId = parsedId;
+    }
+
+    TokenDTO token = memoryCache.Get<TokenDTO>("Token");
+    var idUser = token.idUser;
+    var userInfo = await Model._usersProvider.GetProfileById(idUser);
+
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-u5oJ1BjfXzXb2/SdU2Oo/9bA1Y/H10x5cG9x5WwBR6GAGfeeaKAncc+BqCJNVODi8Cq4g6kj6Uxlt2VbZgXgvg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-pzjw59bhf1w8cxwrp+i+o5kb2hdmdd0yta7dpl6ra2qepyzxjqvvwuf99hq8tvil" crossorigin="anonymous">
+
+<div class="container">
+    @try
+    {
+        podcastInfo = await Model._podcastProvider.GetPodcastById(podcastId);
+        <h2>Detalles del Podcast</h2>
+        <div class="row">
+            <div class="col-md-4">
+
+                @if (podcastInfo.ImagePodcast != null)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(podcastInfo.ImagePodcast)" alt="Imagen del Podcast" class="img-fluid" />
+                }
+                else
+                {
+                    <img src="https://via.placeholder.com/500" alt="Imagen de la lista" class="card-img-top">
+                }
+            </div>
+            <div class="col-md-8">
+                <h3>@podcastInfo.Title</h3>
+                <p><strong>Tema:</strong> @podcastInfo.Topic</p>
+                <p>@podcastInfo.Description</p>
+            </div>
+        </div>
+    }
+    catch (Exception ex)
+    {
+        ModelState.AddModelError("", ex.Message);
+        Page();
+
+    }
+
+
+    <hr />
+
+    <h3>Episodios</h3>
+    <div class="row">
+        @{
+            if (podcastInfo != null)
+            {
+                try
+                {
+                    var list = await Model._chaptersProvider.GetChaptersByPodcast(podcastInfo.IdPodcast);
+                    if (list.Count != 0)
+                    {
+                        foreach (var episode in list)
+                        {
+                            @if (episode.StateChapter != 0)
+                            {
+                                <div class="col-lg-4">
+                                    <div class="episode-card">
+                                        <div class="card">
+                                            @if (episode.ImageChapter != null)
+                                            {
+                                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(episode.ImageChapter)" alt="Imagen del Podcast" class="img-fluid" />
+                                            }
+                                            else
+                                            {
+                                                <img src="https://via.placeholder.com/500" alt="Imagen de la lista" class="card-img-top">
+                                            }
+                                            <div class="card-body">
+                                                <h5 class="card-title text-black">@episode.Title</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted text-black">@episode.Topic</h6>
+                                                <p class="card-text text-black">@episode.Description</p>
+
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Opciones
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        @{
+                                                            var likelist = await Model._playlistProvider.GetLikesList(userInfo.likesList.IdlikesList);
+                                                            if (likelist.Chapters != null && likelist.Chapters.Any(c => c.IdChapter == episode.IdChapter))
+                                                            {
+                                                                // El capítulo ya está en la lista de Me gusta
+                                                                <a class="dropdown-item disabled" href="#">Me Gusta</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                // El capítulo no está en la lista de Me gusta
+                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#likelistModal" data-chapter-id-like="@episode.IdChapter" onclick="updateLikelistFormValue(@episode.IdChapter)">Dar me gusta</a>
+                                                            }
+                                                        }
+                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#playlistModal" data-chapter-id-list="@episode.IdChapter" onclick="updatePlaylistFormValues(@episode.IdChapter)">Agregar a playlist</a>
+                                                        <a class="dropdown-item" href="/PlayChapterView?id=@episode.IdChapter">Reproducir</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                    Page();
+
+                }
+            }
+        }
+    </div>
+    
+</div>
+<!-- Modal para seleccionar una playlist -->
+<div class="modal fade" id="playlistModal" tabindex="-1" aria-labelledby="playlistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="playlistModalLabel">Seleccionar Playlist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="List">
+                <div class="modal-body">
+                    <p class="text-black">Selecciona la playlist a la cual deseas agregar el capítulo:</p>
+                    @try
+                    {
+                        <select id="playlistSelect" class="form-select" name="selectedPlaylistId">
+                            @{
+                                var playlists = await Model._playlistProvider.GetPlayListsByUser(idUser);
+                                if (playlists.Count != 0)
+                                {
+                                    foreach (var playlist in playlists)
+                                    {
+                                        <option value="@playlist.IdPlayList">@playlist.Name</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", ex.Message);
+                        Page();
+
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <input type="hidden" name="chapterIdList" id="ChapterIdList" value="" />
+                    <input type="hidden" name="selectedPlaylistId" id="SelectedPlaylistIdList" value="" />
+                    <input type="hidden" name="podcastId" id="PodcastId" value="@podcastId" />
+
+                    <button type="submit" class="btn btn-danger" id="addToLikelistBtn" onclick="updateLikelistFormValue()">Agregar</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Modal Agregar a likelist -->
+<div class="modal fade" id="likelistModal" tabindex="-1" aria-labelledby="likelistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="likelistModalLabel">Agregar a tus me gusta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-black">¿Estás seguro de que deseas agregar el capítulo a tus me gusta?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post" asp-page-handler="Like">
+                    <input type="hidden" name="chapterIdLike" id="ChapterIdLike" value="" />
+                    <input type="hidden" name="podcastId" id="PodcastId" value="@podcastId" />
+
+                    <button type="submit" class="btn btn-primary" id="addToPlaylistBtn" onclick="updatePlaylistFormValues()">Agregar</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function updatePlaylistFormValues(chapterId) {
+        $('#ChapterIdList').val(chapterId);
+        // También puedes asignar el valor de selectedPlaylistId si es necesario
+        $('#SelectedPlaylistIdList').val(selectedPlaylistId);
+        $('#PodcastId').val(@podcastId);
+    }
+</script>
+
+<script>
+    function updateLikelistFormValue(chapterId) {
+        $('#ChapterIdLike').val(chapterId);
+        $('#PodcastId').val(@podcastId);
+    }
+</script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+

@@ -1,0 +1,144 @@
+﻿@page
+@model VoiceAcademyWEB.Pages.ProfileViewModel
+@{
+    int userId = int.Parse(Request.Query["id"]);
+    var userInfo = await Model._usersProvider.GetProfileById(userId);
+
+
+    <div class="user-profile text-white">
+        <div class="user-info text-white">
+            <h2>Perfil de usuario</h2>
+            @if (userInfo.ImagenUser != null)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(userInfo.ImagenUser)" alt="Imagen de la lista" style="max-width: 300px;">
+            }
+            else
+            {
+                <img src="https://via.placeholder.com/500" alt="Imagen de la lista" style="max-width: 300px;">
+            }
+            <h4>@userInfo.FullName</h4>
+        </div>
+        <hr />
+        <div>
+            <h3>Me Gusta</h3>
+            <a href="/LikeListView?id=@userInfo.likesList.IdlikesList" class="playlist-card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/500" alt="Imagen de la lista">
+
+                </div>
+                <div class="card-content text-white">
+                    <h4>Mis Me Gusta</h4>
+                </div>
+            </a>
+        </div>
+        <hr />
+        @if (userInfo.Role.Equals("uvcomunity"))
+        {
+            <div class="playlists">
+                <h3>Playlists</h3>
+                <div class="playlist-grid">
+                    @{
+                        if (userInfo.playLists.Count != 0)
+                        {
+                            foreach (var playlist in userInfo.playLists)
+                            {
+                                <a href="/PlayListView?id=@playlist.IdPlayList" class="playlist-card">
+                                    <div class="card-image">
+                                        @if (playlist.ImagePlayList != null)
+                                        {
+                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(playlist.ImagePlayList)" alt="Imagen de la lista">
+                                        }
+                                        else
+                                        {
+                                            <img src="https://via.placeholder.com/500" alt="Imagen de la lista">
+                                        }
+                                    </div>
+                                    <div class="card-content text-white">
+                                        <h4>@playlist.Name</h4>
+                                    </div>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <h4>No se encontró ninguna playlist</h4>
+                        }
+                    }
+                </div>
+            </div>
+            <hr />
+
+            <div class="podcasts">
+                <h3>Podcasts</h3>
+
+                <div class="podcast-grid">
+                    @{
+                        if (userInfo.podcastchannels.Count != 0)
+                        {
+                            foreach (var podcast in userInfo.podcastchannels)
+                            {
+                                <a href="/PodcastView?id=@podcast.IdPodcast" class="playlist-card">
+                                    <div class="card-image">
+                                        @if (podcast.ImagePodcast != null)
+                                        {
+                                            <td><img src="data:image/jpeg;base64,@Convert.ToBase64String(podcast.ImagePodcast)" alt="Imagen de la lista" style="max-width: 300px;"></td>
+                                        }
+                                        else
+                                        {
+                                            <td><img src="https://via.placeholder.com/500" alt="Imagen de la lista" ></td>
+                                        }
+                                    </div>
+                                    <div class="card-content text-white">
+                                        <h4>@podcast.Title</h4>
+                                    </div>
+                                    
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <h4>No se encontró ningun podcast</h4>
+                        }
+                    }
+                </div>
+
+            </div>
+
+        }
+    </div>
+}
+
+<style>
+    .playlist-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        color: #000;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        width: 300px;
+        margin-bottom: 10px;
+    }
+
+    .card-image img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .card-content h4 {
+        font-size: 16px;
+        margin: 0;
+        margin-top: 10px;
+    }
+
+    .playlist-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 20px;
+    }
+</style>
+

@@ -1,0 +1,95 @@
+﻿@using VoiceAcademyWEB.DTOs;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.Extensions.Caching.Memory;
+@using VoiceAcademyWEB.Models;
+@inject IMemoryCache memoryCache
+
+@{
+    TokenDTO token = memoryCache.Get<TokenDTO>("Token");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VoiceAcademyWEB</title>
+    @await RenderSectionAsync("styles", required: false)
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/VoiceAcademyWEB.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <i class="fas fa-microphone-alt"></i> VoiceAcademy
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @if (token != null)
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            </li>
+                            @if (token.Role.Equals("uvcomunity"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/ManagePlayListView">Listas de Reproducción</a>
+                                </li>
+                                
+                            }
+                            <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/SearchPodcastView">Buscar Podcast</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/SearchProfileView">Buscar Perfil</a>
+                            </li>
+
+
+                        </ul>
+                        <ul class="navbar-nav d-flex justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/UpdateUser">@token.FullName</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary" asp-area="" asp-page="/LogoutView">Logout</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav d-flex justify-content-end flex-grow-1">
+                            <li class="nav-item">
+                                <a asp-page="/LoginView" class="btn btn-primary">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-page="/RegisterView" class="btn">Registrarse</a>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

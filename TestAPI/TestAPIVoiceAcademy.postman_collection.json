@@ -1,0 +1,5289 @@
+{
+	"info": {
+		"_postman_id": "ff77ef66-c847-4863-8686-11a1a9602886",
+		"name": "TestAPIVoiceAcademy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26618085"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Email ya registrado en sistema",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El correo electrónico ya existe en base de datos\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Authorization/AllreadyExistEmail?email=sistemadegestiondetutorias@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Authorization",
+								"AllreadyExistEmail"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "sistemadegestiondetutorias@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Email no registrado en sistema.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El correo electrónico no existe en base de datos\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Authorization/AllreadyExistEmail?email=drako.crs96@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Authorization",
+								"AllreadyExistEmail"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "drako.crs96@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar token a email. Exitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El código se envía correctamente. Retorna código 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Authorization/SendVerificationToken/drako.crs96%40gmail.com/456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Authorization",
+								"SendVerificationToken",
+								"drako.crs96%40gmail.com",
+								"456789"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar token a email. Fallido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al enviar el correo electrónico. Retorna código 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Authorization/SendVerificationToken/drako.crs96%40gmail.com/456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Authorization",
+								"SendVerificationToken",
+								"drako.crs96%40gmail.com",
+								"456789"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Usuario. Exitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registro exitoso. Retorna código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 20,\r\n  \"email\": \"Po4stmanTest@example.com\",\r\n  \"age\": 35,\r\n  \"name\": \"Pos4tman\",\r\n  \"lastName\": \"Per4ez Per4ez\",\r\n  \"password\": \"post4123456\",\r\n  \"imageUser\": \"null\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Authorization/AddUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Authorization",
+								"AddUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Usuario. Campos Vacíos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campo vacío. Retorna código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 20,\r\n  \"email\": \"PostmanTest@example.com\",\r\n  \"age\": 35,\r\n  \"name\": \"Postman\",\r\n  \"lastName\": \"Perez Perez\",\r\n  \"password\": \"post123456\",\r\n  \"imageUser\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Authorization/AddUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Authorization",
+								"AddUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Usuario ya existente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Usuario ya existente. Retorna código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 20,\r\n  \"email\": \"PostmanTest@example.com\",\r\n  \"age\": 35,\r\n  \"name\": \"Postman\",\r\n  \"lastName\": \"Perez Perez\",\r\n  \"password\": \"post123456\",\r\n  \"imageUser\": \"null\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Authorization/AddUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Authorization",
+								"AddUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Podcasts",
+			"item": [
+				{
+					"name": "Obtener Podcast por ID. Exitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontró coincidencia con ID, retorna código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzVlNTQ4OS1kYTJmLTRiYmItODgxZC02MWNiODEwOTI2OWUiLCJpYXQiOiIxOS8wNi8yMDIzIDIyOjMxOjU1IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MjE3NTE1fQ.5o9mmufDL1bv1AIqRXqM_rsm1BVpS0qCpUx4ilHzgmM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcastById/9\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcastById",
+								"9\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Podcast  inexistente por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontró el Podcast, retorna código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzVlNTQ4OS1kYTJmLTRiYmItODgxZC02MWNiODEwOTI2OWUiLCJpYXQiOiIxOS8wNi8yMDIzIDIyOjMxOjU1IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MjE3NTE1fQ.5o9mmufDL1bv1AIqRXqM_rsm1BVpS0qCpUx4ilHzgmM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcastById/2\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcastById",
+								"2\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Podcast por ID. Acceso No Autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGcJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzVlNTQ4OS1kYTJmLTRiYmItODgxZC02MWNiODEwOTI2OWUiLCJpYXQiOiIxOS8wNi8yMDIzIDIyOjMxOjU1IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MjE3NTE1fQ.5o9mmufDL1bv1AIqRXqM_rsm1BVpS0qCpUx4ilHzgmM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcastById/2\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcastById",
+								"2\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar podcast. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se crea registro en base de datos. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"jajaja\",\r\n  \"topic\": \"jajaajja\",\r\n  \"title\": \"jajajjja\",\r\n  \"uvcomunityIdUvcomunity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/AddPodcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"AddPodcast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar podcast duplicado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registro duuplicado, no se puede agregar. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"jajaja\",\r\n  \"topic\": \"jajaajja\",\r\n  \"title\": \"jajajjja\",\r\n  \"uvcomunityIdUvcomunity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/AddPodcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"AddPodcast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar podcast. Errorr base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error en agrear registro en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"jajaja\",\r\n  \"topic\": \"jajaajja\",\r\n  \"title\": \"jajajjja\",\r\n  \"uvcomunityIdUvcomunity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/AddPodcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"AddPodcast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar podcast. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registro duuplicado, no se puede agregar. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NcCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"jajaja\",\r\n  \"topic\": \"jajaajja\",\r\n  \"title\": \"jajajjja\",\r\n  \"uvcomunityIdUvcomunity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/AddPodcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"AddPodcast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar podcast. Campo vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campo vacío. Retornó código 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"\",\r\n  \"topic\": \"\",\r\n  \"title\": \"\",\r\n  \"uvcomunityIdUvcomunity\": \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/AddPodcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"AddPodcast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos podcast. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcasts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcasts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos podcast. Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error con base de datos. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcasts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcasts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos podcast. Error base de datos Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado a contenido. Retornó código 200\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcasts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcasts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener podcast de usuario. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcastsByUserId?idUser=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcastsByUserId"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener podcast de usuario inexistente.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Usuario UV inexistente. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNTJjMzMyOC0wOGJkLTQ5MWUtYjZiZS1hMDIwNDBhNzBjMWQiLCJpYXQiOiIyMC8wNi8yMDIzIDE0OjMwOjQyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc1MDQyfQ.e3aeKCp5SvfJ5w6wGKAs7pJfwMrR6ryUfOjKUxL1vZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcastsByUserId?idUser=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcastsByUserId"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar podcast por su ID. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNDk2MDM3Ny1jZGQ1LTQ4NjEtYjk3NC05NmM3ZTVkY2MxNDciLCJpYXQiOiIyMC8wNi8yMDIzIDE1OjMzOjI0IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc4ODA0fQ.OjcujauVz_fVEGjj_2NYUvd8eN_q-mqO_CWccUWsX6w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/DeletePodcast?idPodcast=31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"DeletePodcast"
+							],
+							"query": [
+								{
+									"key": "idPodcast",
+									"value": "31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar podcast inexistente por su ID.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontró coincidencia. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNDk2MDM3Ny1jZGQ1LTQ4NjEtYjk3NC05NmM3ZTVkY2MxNDciLCJpYXQiOiIyMC8wNi8yMDIzIDE1OjMzOjI0IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc4ODA0fQ.OjcujauVz_fVEGjj_2NYUvd8eN_q-mqO_CWccUWsX6w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/DeletePodcast?idPodcast=31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"DeletePodcast"
+							],
+							"query": [
+								{
+									"key": "idPodcast",
+									"value": "31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar podcast por su ID. Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNDk2MDM3Ny1jZGQ1LTQ4NjEtYjk3NC05NmM3ZTVkY2MxNDciLCJpYXQiOiIyMC8wNi8yMDIzIDE1OjMzOjI0IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3Mjc4ODA0fQ.OjcujauVz_fVEGjj_2NYUvd8eN_q-mqO_CWccUWsX6w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/DeletePodcast?idPodcast=31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"DeletePodcast"
+							],
+							"query": [
+								{
+									"key": "idPodcast",
+									"value": "31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar podcast por su ID. Éxito",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chapters",
+			"item": [
+				{
+					"name": "Obtener capitulos de Playlist. Exitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retorna código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Comparación de contenido similar\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.message).to.eql(\"Lista de Capitulos\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNDJjOGRjZC03ZjdlLTRmZTQtYTY3Zi05NDJiNWU2NjM0MjMiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NTg6MjMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjYzMDN9.1W9fgvaU1Oeu32nEybmO04jay7gwLm6t_epiRyrR4uA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChaptersByPlaylist/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChaptersByPlaylist",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos de Playlist. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado. Retorna código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMz487I2OC0wNjk4LTRhOGMtYWI1NC1iMTBmYmM0MmNkNTkiLCJpYXQiOiIyMC8wNi8yMDIzIDA6MDg6MzciLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjMzMTd9.idu_55quYDQKMeueqiJtrHmEpooM7ZYyMjjL0G0S2ek",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChaptersByPlaylist/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChaptersByPlaylist",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos de Playlist inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontraron coincidencias. Retorna código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMzUwMmI2OC0wNjk4LTRhOGMtYWI1NC1iMTBmYmM0MmNkNTkiLCJpYXQiOiIyMC8wNi8yMDIzIDA6MDg6MzciLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjMzMTd9.idu_55quYDQKMeueqiJtrHmEpooM7ZYyMjjL0G0S2ek",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChaptersByPlaylist/35",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChaptersByPlaylist",
+								"35"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos de podcast. Exitoso.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retorna código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNDJjOGRjZC03ZjdlLTRmZTQtYTY3Zi05NDJiNWU2NjM0MjMiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NTg6MjMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjYzMDN9.1W9fgvaU1Oeu32nEybmO04jay7gwLm6t_epiRyrR4uA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChaptersByPodcast/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChaptersByPodcast",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos de podcast inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El podcast no existe. Retorna código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYWFhOTQ3ZS0xNjkwLTRhOTQtOGNjYy0wM2U0NjcwNDkwMWEiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NDA6NDMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjUyNDN9.FIU_IiXexSSrW-K60a9FS9WZ6R7ohJqpGaYVR0A6d8o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChaptersByPodcast/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChaptersByPodcast",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos de podcast vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El podcast no contiene capítulos. Retorna código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYWFhOTQ3ZS0xNjkwLTRhOTQtOGNjYy0wM2U0NjcwNDkwMWEiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NDA6NDMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjUyNDN9.FIU_IiXexSSrW-K60a9FS9WZ6R7ohJqpGaYVR0A6d8o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChaptersByPodcast/25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChaptersByPodcast",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos por ID. Exitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontró coincidencia. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNDJjOGRjZC03ZjdlLTRmZTQtYTY3Zi05NDJiNWU2NjM0MjMiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NTg6MjMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjYzMDN9.1W9fgvaU1Oeu32nEybmO04jay7gwLm6t_epiRyrR4uA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChapterById/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChapterById",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos inexistente por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontró coincidencia. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYWFhOTQ3ZS0xNjkwLTRhOTQtOGNjYy0wM2U0NjcwNDkwMWEiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NDA6NDMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjUyNDN9.FIU_IiXexSSrW-K60a9FS9WZ6R7ohJqpGaYVR0A6d8o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetChapterById/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetChapterById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos likeados por ID usuario y ID playlist. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNDJjOGRjZC03ZjdlLTRmZTQtYTY3Zi05NDJiNWU2NjM0MjMiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NTg6MjMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjYzMDN9.1W9fgvaU1Oeu32nEybmO04jay7gwLm6t_epiRyrR4uA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetLikedChaptersByPodcastId/1/109",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetLikedChaptersByPodcastId",
+								"1",
+								"109"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos likeados por ID usuario y ID playlist. Sin coincidencias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontraron coincidencias. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNDJjOGRjZC03ZjdlLTRmZTQtYTY3Zi05NDJiNWU2NjM0MjMiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NTg6MjMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjYzMDN9.1W9fgvaU1Oeu32nEybmO04jay7gwLm6t_epiRyrR4uA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetLikedChaptersByPodcastId/7/109",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetLikedChaptersByPodcastId",
+								"7",
+								"109"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos likeados por ID usuario y ID playlist. Acceso No Autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Sin acceso autorizado a usuario. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);  \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cXVCJ9.eyJqdGkiOiJkNDJjOGRjZC03ZjdlLTRmZTQtYTY3Zi05NDJiNWU2NjM0MjMiLCJpYXQiOiIyMC8wNi8yMDIzIDA6NTg6MjMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMjYzMDN9.1W9fgvaU1Oeu32nEybmO04jay7gwLm6t_epiRyrR4uA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetLikedChaptersByPodcastId/7/109",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetLikedChaptersByPodcastId",
+								"7",
+								"109"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos likeados por ID Usuario. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontró coincidencia. Retornó código 200\", function () {\r",
+									"   var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetLikedChaptersByUserId/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetLikedChaptersByUserId",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos likeados por ID Usuario. Sin Coincidencias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontraron coincidencias. Retornó código 500\", function () {\r",
+									"   var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetLikedChaptersByUserId/104",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetLikedChaptersByUserId",
+								"104"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener capitulos likeados por ID Usuario. Sin Acceso Autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado a contenido. Retornó código 401\", function () {\r",
+									"   pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIQ0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Chapters/GetLikedChaptersByUserId/104",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Chapters",
+								"GetLikedChaptersByUserId",
+								"104"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Degree",
+			"item": [
+				{
+					"name": "Obtener carreras. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Degree/GetDegrees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Degree",
+								"GetDegrees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener carreras. Sin Coincidencias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontró coincidencia. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Degree/GetDegrees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Degree",
+								"GetDegrees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener carreras. Error en base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ocurrió error al obtener las carreras en la base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Degree/GetDegrees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Degree",
+								"GetDegrees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener carreras  por ID de facultad. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Degree/GetDegreesByFacultyId/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Degree",
+								"GetDegreesByFacultyId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener carreras  por ID de facultad. Sin coincidencias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontraron coincidencias. Retornó lista vacía\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.list).to.eql([]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Degree/GetDegreesByFacultyId/18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Degree",
+								"GetDegreesByFacultyId",
+								"18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener carreras  por ID de facultad inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Facultad sin existencia en base de datos. Retornó lista vacía\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.list).to.eql([]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Degree/GetDegreesByFacultyId/25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Degree",
+								"GetDegreesByFacultyId",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener carreras  por ID de facultad. Error en base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al obtener carreras con la base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Degree/GetDegreesByFacultyId/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Degree",
+								"GetDegreesByFacultyId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Playlists",
+			"item": [
+				{
+					"name": "Obtener Playlist por ID usuario. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayLists/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayLists",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Playlist por ID usuario. Sin coincidencias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontraron coincidencias. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayLists/107",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayLists",
+								"107"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Playlist por ID usuario inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Usuario inexistente en base de datos. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayLists/142",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayLists",
+								"142"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Playlist por ID usuario NO comunidad UV",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Usuario sin coincidencias por no ser Comunidad UV. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayLists/108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayLists",
+								"108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Playlist por ID usuario no autorizado.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Usuario sin acceso autorizado. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayLists/108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayLists",
+								"108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Playlist por ID. Parámetro vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Parámetro. Retornó código 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX.eyJqdGkiOiI1Y2Q0NjhjOC0xY2Y5LTRkMDYtYTRhOS1jNDU5ZjE2MDdmMzUiLCJpYXQiOiIyMC8wNi8yMDIzIDI6NDU6MTIiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzI3MTJ9.w6amsWET1Dfp-_upSu44rNi-4mZAZ2ou0hz3WnCW90s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayLists/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayLists",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar playlist. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se crea registro en base de datos. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkMjA5Njg4Zi02M2RhLTRlNWEtOTFlNS00ZTRhYjZiMGJkNmQiLCJpYXQiOiIyMC8wNi8yMDIzIDM6NTU6MjciLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzY5Mjd9.SBTQuoNN9u8sIG-wr7pQWHniwKf_nnziiVnwLy8bx4o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 50,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": 105,\r\n  \"description\": \"hola\",\r\n  \"imagen\": \"null\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar playlist. Error en base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al crear registro en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkMjA5Njg4Zi02M2RhLTRlNWEtOTFlNS00ZTRhYjZiMGJkNmQiLCJpYXQiOiIyMC8wNi8yMDIzIDM6NTU6MjciLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzY5Mjd9.SBTQuoNN9u8sIG-wr7pQWHniwKf_nnziiVnwLy8bx4o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 50,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": 105,\r\n  \"description\": \"hola\",\r\n  \"imagen\": \"null\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar playlist. Campo vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Camo vacío. Retornó código 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkMjA5Njg4Zi02M2RhLTRlNWEtOTFlNS00ZTRhYjZiMGJkNmQiLCJpYXQiOiIyMC8wNi8yMDIzIDM6NTU6MjciLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzY5Mjd9.SBTQuoNN9u8sIG-wr7pQWHniwKf_nnziiVnwLy8bx4o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 50,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": ,\r\n  \"description\": \"\",\r\n  \"imagen\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar playlist. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado a contenido. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkMjA5Njg4Zi02M2RhLTRlNWEtOTFlNS00ZTRhYjZiMGJkNmQiLCJpYXQiOiIyMC8wNi8yMDIzIDM6NTU6MjciLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyMzY5Mjd9.SBTQuoNN9u8sIG-wr7pQWHniwKf_nnziiVnwLy8bx4o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 50,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": 105,\r\n  \"description\": \"\",\r\n  \"imagen\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Playlist. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se actualizó correctamente el registro en base de datos. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statuscode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 19,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": 105,\r\n  \"description\": \"rrijo\",\r\n  \"imagen\": \"null\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/UpdatePlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"UpdatePlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Playlist. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado a contenido. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": ".eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 19,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": 105,\r\n  \"description\": \"rrijo\",\r\n  \"imagen\": \"null\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/UpdatePlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"UpdatePlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Playlist. Sin cambios, similitud en datos.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registro sin cambios, no se actualizó. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 19,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": 105,\r\n  \"description\": \"rrijo\",\r\n  \"imagen\": \"null\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/UpdatePlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"UpdatePlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Playlist. Campos vacíos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campo vacío. Retornó código 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 19,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": ,\r\n  \"description\": \"\",\r\n  \"imagen\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/UpdatePlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"UpdatePlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Playlist. Error a base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al actualizar registro en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPlayList\": 19,\r\n  \"name\": \"Hola\",\r\n  \"idUser\": ,\r\n  \"description\": \"\",\r\n  \"imagen\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/UpdatePlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"UpdatePlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar playlist.  Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se elimina con éxito el registro. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeletePlayList/20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeletePlayList",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar playlist.  Playlist no existente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al eliminar el registro porque no existe. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeletePlayList/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeletePlayList",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar playlist.  Error en base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al crear registro en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeletePlayList/20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeletePlayList",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar playlist.  Aceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado a contenido. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ik.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeletePlayList/20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeletePlayList",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar playlist.  Parámetro vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Parámetro vacío. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeletePlayList/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeletePlayList",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener playlist por su ID. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayListById/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayListById",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener playlist por su ID.  Sin coincidencias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontraron coincidencias. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayListById/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayListById",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener playlist por su ID.  Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al obtener registro en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayListById/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayListById",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener playlist por su ID.  Parámetro vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Parámetro vacío. Retornó código 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayListById/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayListById",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener playlist por su ID.  Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetPlayListById/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetPlayListById",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener lista Me Gusta por su ID. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetLikeListById/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetLikeListById",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener lista Me Gusta por su ID. Sin coincidencias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No se encontraron coincidencias. Retornó lista vacía\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.list.idlikesList).to.eql(0);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetLikeListById/150",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetLikeListById",
+								"150"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener lista Me Gusta por su ID. Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al obtener registro en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.list.idlikesList).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetLikeListById/150",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetLikeListById",
+								"150"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener lista Me Gusta por su ID. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado a contenido. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetLikeListById/150",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetLikeListById",
+								"150"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener lista Me Gusta por su ID. Parámetro vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Parámetro vacío. Retornó código 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjN2E0MmY2Yy0wYmFhLTRmNjUtOGYwOS05MWIwZDk2ODZmZjEiLCJpYXQiOiIyMC8wNi8yMDIzIDU6MDQ6MTgiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDEwNTh9.e8uRWXLI5hugPMKLRzITxoqmapI3Ca-QwmjLtctb1gA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/GetLikeListById/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"GetLikeListById",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar like a capítulo. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se crea registro en base de datos. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 107,\r\n  \"idChapter\": 29\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/LikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"LikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar like a capítulo inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Capítulo inexistente. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 107,\r\n  \"idChapter\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/LikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"LikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar like a capítulo. Usuario inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Usuario inexistente. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 200,\r\n  \"idChapter\": 29\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/LikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"LikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar like a capítulo. Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al crear registro en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 200,\r\n  \"idChapter\": 29\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/LikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"LikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar like a capítulo. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6VCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 200,\r\n  \"idChapter\": 29\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/LikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"LikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar like a capítulo. Campo vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campo vacío. Retornó código 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 200,\r\n  \"idChapter\": \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/LikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"LikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar capitulo a playlist. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se crea registro en base de datos. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 23,\r\n  \"idPlaylist\": 16\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar capitulo inexistente a playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Capítulo inexistente. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 102,\r\n  \"idPlaylist\": 16\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar capitulo a playlist inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Playlist inexistente. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 29,\r\n  \"idPlaylist\": 102\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar capitulo a playlist. Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error al crear registro en base de datos. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 29,\r\n  \"idPlaylist\": 102\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar capitulo a playlist. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsIncCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 29,\r\n  \"idPlaylist\": 102\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar capitulo a playlist. Campo vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campo vacío. Retornó código 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 23,\r\n  \"idPlaylist\": \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/AddChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"AddChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de lista de me gusta. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se crea registro en base de datos. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 107,\r\n  \"idChapter\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteLikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteLikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo inexistente de lista de me gusta.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Capitulo inexistente. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 107,\r\n  \"idChapter\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteLikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteLikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de lista de me gusta de usuario inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Usuario  inexistente. Retornó código 401\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 200,\r\n  \"idChapter\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteLikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteLikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de lista de me gusta. Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error en base de datos. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 200,\r\n  \"idChapter\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteLikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteLikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de lista de me gusta. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cIkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": 200,\r\n  \"idChapter\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteLikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteLikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de lista de me gusta. Campo vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campo vacío. Retornó código 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": ,\r\n  \"idChapter\": \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteLikeChapter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteLikeChapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de playlist. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se elimina con éxito el registro. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 28,\r\n  \"idPlaylist\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo inexistente de playlist.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Capítulo inexistente. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 200,\r\n  \"idPlaylist\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de playlist inexistente .",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Playlist inexistente. Retornó código 500\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 6,\r\n  \"idPlaylist\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de playlist. Acceso no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso no autorizado. Retornó código 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 6,\r\n  \"idPlaylist\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de playlist. Error base de datos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error en base de datos. Retornó código 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNmY2ODc0Zi02MzI5LTRiZWEtYTQ3Yy0zMmIwZTczZWNmMDkiLCJpYXQiOiIyMC8wNi8yMDIzIDY6MjM6MTMiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDU3OTN9.IGs9cnJXKTf93wVSyhAAVnSp_VNl5UbGpIXz60gn-MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": 6,\r\n  \"idPlaylist\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar capitulo de playlist. Campo vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campo vacío. Retornó código 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzNjdiNzIwNC1lODdiLTRlMjMtODc1ZC0xMThhY2ZjYzA4MTgiLCJpYXQiOiIyMC8wNi8yMDIzIDc6MjQ6NTQiLCJpZCI6IjEwMSIsInJvbGVUeXBlIjoiYWRtaW4iLCJleHAiOjE2ODcyNDk0OTR9._p-4C7O6PS5E1ZT06bBnr59_DATod_7arMAutDFb6zs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idChapter\": ,\r\n  \"idPlaylist\": \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/DeleteChapterToPlayList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"DeleteChapterToPlayList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Quitar Like Capítulo, por ID Usuario. Éxito",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/PlayLists/UnLikeChapter\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"PlayLists",
+								"UnLikeChapter\n"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Podcast",
+			"item": [
+				{
+					"name": "Agregar Podcast. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Podcast agregado correctamente. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYmM1NGJjMi1lNTcyLTRlNmItOTc2ZC01MjkyY2EwOTY3MGMiLCJpYXQiOiIyMS8wNi8yMDIzIDE0OjU3OjAyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MzYzMDIyfQ.f1X11m__nqa6EftBEMuWVv4BgkDBXLxQOLRKszMjyfQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPodcast\": 2,\r\n  \"description\": \"jojojojo\",\r\n  \"statePodcast\": 1,\r\n  \"topic\": \"jojojo\",\r\n  \"title\": \"jjojjooo\",\r\n  \"imagePodcast\": null,\r\n  \"creationDate\": \"2023-06-21T15:11:22.309Z\",\r\n  \"uvcomunityIdUvcomunity\": 105\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/AddPodcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"AddPodcast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los podcas . Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYmM1NGJjMi1lNTcyLTRlNmItOTc2ZC01MjkyY2EwOTY3MGMiLCJpYXQiOiIyMS8wNi8yMDIzIDE0OjU3OjAyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MzYzMDIyfQ.f1X11m__nqa6EftBEMuWVv4BgkDBXLxQOLRKszMjyfQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcasts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcasts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener podcast por usuario autor. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYmM1NGJjMi1lNTcyLTRlNmItOTc2ZC01MjkyY2EwOTY3MGMiLCJpYXQiOiIyMS8wNi8yMDIzIDE0OjU3OjAyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MzYzMDIyfQ.f1X11m__nqa6EftBEMuWVv4BgkDBXLxQOLRKszMjyfQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcastsByUserId/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcastsByUserId",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar podcast. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se elimina con éxito el registro. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYmM1NGJjMi1lNTcyLTRlNmItOTc2ZC01MjkyY2EwOTY3MGMiLCJpYXQiOiIyMS8wNi8yMDIzIDE0OjU3OjAyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MzYzMDIyfQ.f1X11m__nqa6EftBEMuWVv4BgkDBXLxQOLRKszMjyfQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/DeletePodcast?idPodcast=25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"DeletePodcast"
+							],
+							"query": [
+								{
+									"key": "idPodcast",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar visibilidad podcast. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se actualizó privacidad. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.statusCode).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5MTVlZTQ4Mi1jNTlhLTRhMmUtOTExMi1kMjdhYzJiNmMyZWYiLCJpYXQiOiIyMS8wNi8yMDIzIDE1OjU2OjU0IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MzY2NjE0fQ.OqL4_4kX-HEKwCW9HZQUlw_qkl9XsdY50qN60p24Q9Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/ChangePodcastVisivility?idPodcast=39",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"ChangePodcastVisivility"
+							],
+							"query": [
+								{
+									"key": "idPodcast",
+									"value": "39"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener podcast por ID. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmYmM1NGJjMi1lNTcyLTRlNmItOTc2ZC01MjkyY2EwOTY3MGMiLCJpYXQiOiIyMS8wNi8yMDIzIDE0OjU3OjAyIiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MzYzMDIyfQ.f1X11m__nqa6EftBEMuWVv4BgkDBXLxQOLRKszMjyfQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Podcasts/GetPodcastById/43",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Podcasts",
+								"GetPodcastById",
+								"43"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Region",
+			"item": [
+				{
+					"name": "Obtener todos los programas educativos. Éxito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Se encontraron coincidencias. Retornó código 200\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlNDFhMTkxYy1jNTYzLTQ2MmEtYTA3Yi04MWM3Y2VjY2NhY2YiLCJpYXQiOiIyMS8wNi8yMDIzIDE2OjE1OjA2IiwiaWQiOiIxMDEiLCJyb2xlVHlwZSI6ImFkbWluIiwiZXhwIjoxNjg3MzY3NzA2fQ.X2G_kCuF6RwwE-cIplQxzhmcxot6_Ssgd0-PYHZ256E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Region/GetRegions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Region",
+								"GetRegions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Iniciar Sesión Credenciales Válidas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": \"dansegura8863@gmail.com\",\r\n  \"password\": \"8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/Login/AuthorizeUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Login",
+						"AuthorizeUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Iniciar Sesión Credenciales Inválidas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Incorrect\", function () {\r",
+							"    var response = pm.response.json();\r",
+							"    pm.expect(response.statusCode).to.eql(401);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": \"dansegura8863@gmail.com\",\r\n  \"password\": \"856971\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/Login/AuthorizeUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Login",
+						"AuthorizeUser"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

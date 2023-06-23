@@ -1,0 +1,123 @@
+﻿@page
+@model VoiceAcademyWEB.Pages.UpdateUserModel
+@inject IMemoryCache memoryCache
+@{
+    TokenDTO token = memoryCache.Get<TokenDTO>("Token");
+    var idUser = token.idUser;
+    var userInfo= new UserDTO();
+    try
+    {
+        userInfo = await Model._usersProvider.GetUserById(idUser);
+    }
+    catch (Exception ex)
+    {
+        ModelState.AddModelError("", ex.Message);
+        
+    }   
+}
+
+<div class="container">
+    <h1>Detalles de Usuario</h1>
+    <div>
+      @if (userInfo.ImageUser != null)
+      {
+        <img src="data:image/jpeg;base64,@Convert.ToBase64String(userInfo.ImageUser)" alt="Imagen de usuario" style="max-width: 200px; margin-bottom: 10px;">
+      }
+      else
+      {
+        <img src="https://via.placeholder.com/500" alt="Imagen de la lista" style="max-width: 200px; margin-bottom: 10px;">
+      }
+  
+      <p style="margin-bottom: 10px;"><strong>Email:</strong> @userInfo.Email</p>
+      <p><strong>Edad:</strong> @userInfo.Age</p>
+      <p><strong>Nombre:</strong> @userInfo.Name</p>
+      <p><strong>Apellido:</strong> @userInfo.LastName</p>
+
+    </div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal">Editar datos de cuenta</button>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <!-- Modal para editar los datos del usuario -->
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-black" id="editarModalLabel">Editar Datos de Cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" asp-page-handler="update" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label text-black">Nombre</label>
+                            <input type="text" class="form-control" asp-for="user.Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label text-black">Apellido</label>
+                            <input type="text" class="form-control" asp-for="user.LastName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edad" class="form-label text-black">Edad</label>
+                            <input type="number" class="form-control" asp-for="user.Age">
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label text-black">Imagen</label>
+                            <input type="file" class="form-control" name="fileImage">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @if (TempData["AlertType"] != null && TempData["AlertMessage"] != null)
+    {
+        var alertType = TempData["AlertType"].ToString();
+        var alertMessage = TempData["AlertMessage"].ToString();
+
+        <div class="alert alert-@alertType">
+            @alertMessage
+        </div>
+    }
+    <hr />
+    @if (token.Role.Equals("userGeneral"))
+    {
+        <h2>Upgrade de Cuenta</h2>
+        <button class="btn btn-success" id="upgradeBtn" onclick="redirectToOtherPage()">Upgrade</button>
+    }
+</div>
+
+
+<script>
+  function redirectToOtherPage() {
+    // Obtener el ID del usuario
+    var userId = @idUser; // Utilizar el valor de idUser en la variable JavaScript
+
+    // Construir la URL con el ID del usuario como parámetro
+        var url = "UpgradeAccountView?id=" + userId;
+
+    // Redireccionar a la otra página
+    window.location.href = url;
+  }
+</script>
+
+<style>
+      .alert {
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .alert-success {
+      background-color: #32CD32;
+      color: #fff;
+    }
+
+    .alert-error {
+      background-color: #FF0000;
+      color: #fff;
+}
+</style>
+

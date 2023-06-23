@@ -1,0 +1,99 @@
+﻿@page
+@model VoiceAcademyWEB.Pages.PlayChapterViewModel
+@{
+    int chapterId = 0;
+    var chapter = new Chapter();
+    if (int.TryParse(Request.Query["id"], out int parsedId))
+    {
+        chapterId = parsedId;
+    }
+    try
+    {
+
+
+        chapter = await Model._chaptersProvider.GetChapterById(int.Parse(Request.Query["id"]));
+    }
+    catch (Exception ex)
+    {
+        ModelState.AddModelError("", ex.Message);
+        Page();
+    }
+}
+<footer>
+    <style>
+        .containerAudio {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f5f5f5;
+            z-index: 9999;
+        }
+    </style>
+
+    @if (chapter != null)
+    {
+
+
+        <div>
+            <h3>@chapter.Title</h3>
+
+            @if (chapter.ImageChapter != null)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(chapter.ImageChapter)" alt="Imagen del Podcast" class="img-fluid" width="300" height="700" />
+            }
+            else
+            {
+                <img src="https://via.placeholder.com/500" alt="Imagen de la lista" class="card-img-top" width="300" height="700">
+            }
+            <h5>@chapter.Description</h5>
+        </div>
+
+        <div class="containerAudio">
+            <h3 class="text-black">@chapter.Title</h3>
+            <audio id="audio-player" controls>
+                <source src="@chapter.LinkChapter" type="audio/mp3">
+            </audio>
+        </div>
+    }
+    else
+    {
+        <h3>Error al cargar el episodio</h3>
+    }
+    <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const player = new Plyr('#audio-player');
+        });
+
+        // Obtener referencia al reproductor de audio
+        var audioPlayer = document.getElementById('audio-player');
+
+        // Escuchar el evento 'load' del reproductor de audio
+        audioPlayer.addEventListener('load', function () {
+            // Obtener el estado de reproducción actual
+            var currentTime = audioPlayer.currentTime;
+            var isPlaying = !audioPlayer.paused;
+
+            // Guardar el estado de reproducción en localStorage
+            localStorage.setItem('playbackState', JSON.stringify({
+                currentTime: currentTime,
+                isPlaying: isPlaying
+            }));
+        });
+
+        // Recuperar el estado de reproducción almacenado
+        var playbackState = JSON.parse(localStorage.getItem('playbackState'));
+        if (playbackState) {
+            // Restaurar la posición de reproducción
+            audioPlayer.currentTime = playbackState.currentTime;
+
+            // Iniciar o pausar la reproducción según el estado guardado
+            if (playbackState.isPlaying) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        }
+    </script>
+</footer>

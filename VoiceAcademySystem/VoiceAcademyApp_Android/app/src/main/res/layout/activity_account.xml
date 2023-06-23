@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.graphics.Bitmap" />
+        <import type="androidx.databinding.BindingAdapter" />
+        <variable
+            name="accountViewModel"
+            type="com.example.voiceacademyapp.viewModel.AccountViewModel" />
+    </data>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".activity.AccountActivity">
+
+            <ImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerCrop"
+                app:imageBitmap="@{accountViewModel.imageUser}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.09" />
+
+            <TextView
+                android:id="@+id/labelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:text="@={accountViewModel.name}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.393" />
+
+            <TextView
+                android:id="@+id/labelLastName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@={accountViewModel.lastName}"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.479" />
+
+            <TextView
+                android:id="@+id/labelAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.626" />
+
+            <TextView
+                android:id="@+id/labelEmailAcc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@={accountViewModel.email}"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.553" />
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="127dp"
+                android:layout_height="56dp"
+                android:text="Regresar"
+                android:onClick="@{() -> accountViewModel.goToMainMenu()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.119"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.859" />
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="125dp"
+                android:layout_height="57dp"
+                android:text="Modificar"
+                android:onClick="@{() -> accountViewModel.goToUpdateUser()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.806"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.865" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

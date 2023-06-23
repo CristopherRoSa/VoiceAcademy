@@ -1,0 +1,54 @@
+version: '3'
+services:
+  api_gateway:
+    build:
+      context: ./VoiceAcademyAPIs/VoiceAcademyGateWay
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - apilogin
+      - apigeneral
+
+  apilogin:
+    build:
+      context: ./VoiceAcademyAPIs/VoiceAcademyAPILogin
+      dockerfile: Dockerfile
+    ports:
+      - 5186:5186
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=feihub_users
+      - MYSQL_USER=VoiceAcademy_Admin
+      - MYSQL_PASSWORD=4dm1n1str4d0r_VoiceAcademy
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./VoiceAcademyWEB\VoiceAcademy_sql.sql:/docker-entrypoint-initdb.d/init.sql
+
+  apigeneral:
+    build:
+      context: ./VoiceAcademyAPIs/VoiceAcademyAPIGeneral
+      dockerfile: Dockerfile
+    ports:
+      - 5003:5003
+    depends_on:
+      - mysql  
+
+  web_app:
+    build:
+      context: ./VoiceAcademyWEB
+      dockerfile: Dockerfile
+    ports:
+      - 5145:80
+    depends_on:
+      - api_gateway
+
+volumes:
+  mysql-data:

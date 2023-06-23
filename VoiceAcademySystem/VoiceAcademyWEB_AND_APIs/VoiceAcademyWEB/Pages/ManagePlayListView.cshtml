@@ -1,0 +1,190 @@
+﻿@page
+@using VoiceAcademyWEB.DTOs;
+@model VoiceAcademyWEB.Pages.ManagePlayListViewModel
+@inject IMemoryCache memoryCache
+@{
+    ViewData["Title"] = "Administrar Listas de Reproducción";
+}
+@{
+    TokenDTO token = memoryCache.Get<TokenDTO>("Token");
+    var idUser = token.idUser;
+}
+<div class="container">
+    <h1 class="text-white">Administrar Listas de Reproducción</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-white">Listas de Reproducción</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-white">Imagen</th>
+                        <th class="text-white">Nombre</th>
+                        <th class="text-white">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        try
+                        {
+                            foreach (var playlist in await Model._playlist.GetPlayListsByUser(idUser))
+                            {
+                                <tr>
+                                    @if (playlist.ImagePlayList != null)
+                                    {
+                                        <td><img src="data:image/jpeg;base64,@Convert.ToBase64String(playlist.ImagePlayList)" alt="Imagen de la lista" style="max-width: 100px;"></td>
+                                    }
+                                    else
+                                    {
+                                        <td><img src="https://via.placeholder.com/500" alt="Imagen de la lista" style="max-width: 100px;"></td>
+                                    }
+                                    <td class="text-white align-middle text-start">@playlist.Name</td>
+                                    <td class="text-center align-middle">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <form method="post" asp-page="PlayListView" asp-route-id="@playlist.IdPlayList">
+                                                <button type="submit" class="btn btn-link" title="Ver">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </form>
+                                            <a href="#" class="btn btn-link editar-btn" data-bs-toggle="modal" data-bs-target="#editarPlaylistModal" data-playlist-id="@playlist.IdPlayList" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-link eliminar-btn" data-bs-toggle="modal" data-bs-target="#eliminarPlaylistModal" data-playlist-id="@playlist.IdPlayList" data-delete-playlist-id="@playlist.IdPlayList" title="Eliminar">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div> 
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("", ex.Message);
+                            Page();
+
+                        }                        
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearListaModal">Crear Nueva Lista</button>
+        </div>
+        
+    </div>
+</div>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+
+
+<!-- Modal Editar Playlist -->
+<div class="modal fade" id="editarPlaylistModal" tabindex="-1" aria-labelledby="editarPlaylistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="editarPlaylistModalLabel">Editar Lista de Reproducción</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="update" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombreListaEditar" class="form-label text-black">Nombre de la Lista</label>
+                        <input type="text" class="form-control" asp-for="newPlayList.Name" placeholder="Ingrese el nombre de la lista">
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionListaEditar" class="form-label text-black">Descripción de la Lista</label>
+                        <textarea class="form-control" asp-for="newPlayList.Description" placeholder="Ingrese la descripción de la lista"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagenListaEditar" class="form-label text-black">Imagen de la Lista</label>
+                        <input type="file" class="form-control" name="fileImage">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <input type="hidden" name="playlistId" id="playlistIdFormEditar" value="" />
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar Playlist -->
+<div class="modal fade" id="eliminarPlaylistModal" tabindex="-1" aria-labelledby="eliminarPlaylistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="eliminarPlaylistModalLabel">Eliminar Lista de Reproducción</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-black">¿Estás seguro de que deseas eliminar esta lista de reproducción?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post" asp-page-handler="delete">
+                    <input type="hidden" name="DeletePlaylistId" id="playlistIdFormDelete" value="" />
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Crear Lista -->
+<div class="modal fade" id="crearListaModal" tabindex="-1" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="crearListaModalLabel">Crear Nueva Lista de Reproducción</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" asp-page-handler="add" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombreLista" class="form-label text-black">Nombre de la Lista</label>
+                        <input type="text" class="form-control" asp-for="newPlayList.Name" placeholder="Ingrese el nombre de la lista">
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionLista" class="form-label text-black">Descripción de la Lista</label>
+                        <textarea class="form-control" asp-for="newPlayList.Description" placeholder="Ingrese la descripción de la lista"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagenLista" class="form-label text-black">Imagen de la Lista</label>
+                        <input type="file" class="form-control" name="fileImage">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                    <button type="submit" class="btn btn-primary">Crear Lista</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.editar-btn').click(function () {
+                var playlistId = $(this).data('playlist-id');
+                $('input[name="playlistId"]').val(playlistId);
+            });
+        });
+
+        $(document).ready(function () {
+            $('.eliminar-btn').click(function () {
+                var playlistId = $(this).data('playlist-id');
+                var deletePlaylistId = $(this).data('delete-playlist-id');
+                $('#playlistIdFormDelete').val(deletePlaylistId);
+            });
+        });
+    </script>
+    }
+
+
+
+
+

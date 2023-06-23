@@ -1,0 +1,129 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc
+@model VoiceAcademyWEB.Pages.SearchProfileViewModel
+@{
+    ViewData["Title"] = "SearchProfile";
+}
+
+<div class="profile-search">
+    <h2>Buscar Perfiles de Usuario</h2>
+    <div class="filter-button-row">
+        <div class="filters">
+            <label for="carrera">Carrera:</label>
+            <select id="carrera" name="carrera">
+                <option value="0">Todas</option>
+                @foreach (var degree in await Model._degreeProvider.GetDegrees())
+                {
+                    <option value="@degree.IdDegree">@degree.Name</option>
+                }
+            </select>
+        </div>
+        <div class="filters">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre">
+        </div>
+        <button class="buttonStyle" onclick="filterProfiles()">Aplicar Filtros</button>
+    </div>
+
+    <div class="profile-grid" id="profileGrid">
+        @foreach (var user in await Model._usersProvider.GetProfiles())
+        {
+            if (user.Role.Equals("uvcomunity") || user.Role.Equals("userGeneral"))
+            {
+                <form method="post" class="profile-card" asp-page="ProfileView" asp-route-id="@user.IdUser" data-degree="@user.uvcomunity.DegreeIdDegree">
+
+                    <div class="card">
+                        @if (user.ImagenUser != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(user.ImagenUser)" alt="Imagen de usuario" class="card-image">
+                        }
+                        else
+                        {
+                            <img src="https://via.placeholder.com/500" alt="Imagen de la lista" class="card-image">
+                        }
+                        <h3 class="card-title">@user.FullName</h3>
+                    </div>
+                    <button type="submit" class="profile-card-button">Ver perfil</button>
+                </form>
+            }
+        }
+    </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+</div>
+
+<script>
+    function filterProfiles() {
+        var selectedCarrera = document.getElementById("carrera").value;
+        var inputNombre = document.getElementById("nombre").value.trim().toLowerCase();
+        var profileGrid = document.getElementById("profileGrid");
+        var profiles = profileGrid.getElementsByClassName("profile-card");
+
+        for (var i = 0; i < profiles.length; i++) {
+            var profile = profiles[i];
+            var degreeId = profile.getAttribute("data-degree");
+            var nombre = profile.querySelector(".card-title").textContent.toLowerCase();
+
+            var carreraMatch = selectedCarrera === "0" || degreeId === selectedCarrera;
+            var nombreMatch = inputNombre === "" || nombre.includes(inputNombre);
+
+            if (carreraMatch && nombreMatch) {
+                profile.style.display = "block";
+            } else {
+                profile.style.display = "none";
+            }
+        }
+    }
+</script>
+
+<style>
+    /* Estilos CSS aquí */
+    .buttonStyle {
+        margin: 10px;
+    }
+
+    .filter-button-row {
+        display: flex;
+        align-items: center;
+    }
+
+    .filters {
+        margin-right: 10px;
+    }
+
+    .buttonStyle {
+        background-color: #f0f0f0;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+
+    .profile-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .profile-card {
+        flex-basis: calc(50% - 10px);
+        margin-bottom: 20px;
+        text-decoration: none;
+        color: #000;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .card-image {
+        max-width: 200px;
+        margin-bottom: 10px;
+    }
+
+    .card-title {
+        font-size: 16px;
+        margin-bottom: 0;
+    }
+</style>

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package verificationCode;
+
+message VerificationCodeRequest{
+
+  string email=1;
+  string code=2;
+
+}
+
+
+
+message VerificationCodeResponse{
+
+  bool result = 1;
+
+}
+
+service VerificationCodeService{
+  rpc verificationCode(VerificationCodeRequest) returns (VerificationCodeResponse);
+}

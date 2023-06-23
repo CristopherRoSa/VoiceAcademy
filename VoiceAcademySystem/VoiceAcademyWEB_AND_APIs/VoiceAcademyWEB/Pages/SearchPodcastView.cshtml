@@ -1,0 +1,92 @@
+﻿@page
+@model VoiceAcademyWEB.Pages.SearchPodcastViewModel
+@{
+}
+
+
+<style>
+    .podcast-card {
+        max-width: 400px;
+        margin-bottom: 20px;
+    }
+
+        .podcast-card .card-body {
+            background-color: #f8f9fa;
+        }
+
+        .podcast-card .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .podcast-card .card-text {
+            font-size: 14px;
+        }
+</style>
+
+<div class="container">
+    <h1 class="mt-4 mb-4">Consulta de Podcasts</h1>
+
+    <div class="mb-4">
+        <label for="search">Buscar por nombre:</label>
+        <input type="text" id="search" name="search" class="form-control" placeholder="Ingrese el nombre del podcast" />
+    </div>
+    @try
+    {
+        <div class="row">
+            @foreach (var podcast in await Model._podcastProvider.GetPodcasts())
+            {
+                if (podcast.StatePodcast == 1)
+                {
+                    <div class="col-lg-4">
+                        <div class="podcast-card">
+                            <a href="/PodcastView?id=@podcast.IdPodcast" class="card-link">
+                                <div class="card">
+                                    @if (podcast.ImagePodcast != null)
+                                    {
+                                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(podcast.ImagePodcast)" alt="Imagen del podcast" class="card-img-top">
+                                    }
+                                    else
+                                    {
+                                        <img src="https://via.placeholder.com/500" alt="Imagen de la lista" class="card-img-top">
+                                    }
+                                    <div class="card-body">
+                                        <h5 class="card-title text-black">@podcast.Title</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted text-black">Tema @podcast.Topic</h6>
+                                        <p class="card-text text-black">@podcast.Description</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+    }
+    catch (Exception ex)
+    {
+        ModelState.AddModelError("", ex.Message);
+        Page();
+
+    }
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById("search").addEventListener("input", function () {
+        var searchTerm = this.value.toLowerCase();
+        var podcastCards = document.getElementsByClassName("podcast-card");
+
+        for (var i = 0; i < podcastCards.length; i++) {
+            var podcastCard = podcastCards[i];
+            var podcastName = podcastCard.querySelector(".card-title").textContent.toLowerCase();
+
+            if (podcastName.includes(searchTerm)) {
+                podcastCard.style.display = "block";
+            } else {
+                podcastCard.style.display = "none";
+            }
+        }
+    });
+</script>
